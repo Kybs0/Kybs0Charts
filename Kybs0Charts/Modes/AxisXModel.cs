@@ -59,15 +59,11 @@ namespace Kybs0Charts
             get { return _barWidth; }
             set { _barWidth = value; }
         }
-        DataModelCollection<AxisXDataModel> _datas = new DataModelCollection<AxisXDataModel>();
+
         /// <summary>
         /// 数据
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataModelCollection<AxisXDataModel> Datas
-        {
-            get { return _datas; }
-            set { _datas = value; }
-        }
+        public DefinedCollection<AxisXDataModel> Datas { get; set; } = new DefinedCollection<AxisXDataModel>();
     }
 }

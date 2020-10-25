@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -52,15 +53,10 @@ namespace Kybs0Charts
             set { _lineBrush = value; }
         }
 
-        DataModelCollection<AxisYDataModel> _titles = new DataModelCollection<AxisYDataModel>();
         /// <summary>
         /// 左侧标题列表
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DataModelCollection<AxisYDataModel> Titles
-        {
-            get { return _titles; }
-            set { _titles = value; }
-        }
+        public DefinedCollection<AxisYDataModel> Titles { get; set; } = new DefinedCollection<AxisYDataModel>();
     }
 }
