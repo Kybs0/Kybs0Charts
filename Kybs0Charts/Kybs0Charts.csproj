@@ -45,12 +45,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BarChart\BarChartControl.xaml.cs">
-      <DependentUpon>BarChartControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="BarChart\BarChartControl.cs" />
     <Compile Include="Modes\AxisXModel.cs" />
     <Compile Include="Modes\AxisYDataModel.cs" />
     <Compile Include="Modes\AxisYModel.cs" />
+    <Compile Include="Modes\BindingPropertyBase.cs" />
     <Compile Include="Modes\DefinedCollection.cs" />
     <Compile Include="Modes\DataModel.cs" />
     <Compile Include="Modes\AxisXDataModel.cs" />
@@ -60,7 +59,11 @@
     <Folder Include="LineChart\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BarChart\BarChartControl.xaml">
+    <Page Include="Styles\Style.BarChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Style.All.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

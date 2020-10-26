@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:Kybs0Charts"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Kybs0Charts;component/Styles/Style.All.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="FrameworkElement">
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
