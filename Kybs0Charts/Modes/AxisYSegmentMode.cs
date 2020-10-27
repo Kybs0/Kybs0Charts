@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Kybs0Charts
 {
-    public class AxisYModel : BindingPropertyBase
+    public class AxisYSegmentMode : BindingPropertyBase
     {
         private double _width = 20;
         /// <summary>

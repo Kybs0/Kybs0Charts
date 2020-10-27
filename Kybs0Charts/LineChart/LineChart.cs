@@ -9,20 +9,20 @@ using System.Windows.Shapes;
 
 namespace Kybs0Charts
 {
-    public class BarChart : ChartBase
+    public class LineChart : ChartBase
     {
-        static BarChart()
+        static LineChart()
         {
             // 覆盖基类的默认样式，重新提供一个新的默认样式。
             DefaultStyleKeyProperty.OverrideMetadata(
-                typeof(BarChart), new FrameworkPropertyMetadata(typeof(BarChart)));
+                typeof(LineChart), new FrameworkPropertyMetadata(typeof(LineChart)));
         }
 
         protected override void InitTemplateViewContent()
         {
-            LeftGrid.Width = AxisYSegment.Width;
+            LeftGrid.Width = AxisY.Width;
             BottomGrid.Height = AxisX.Height;
-            SetYIntervalsAndLines(AxisYSegment);
+            SetYIntervalsAndLines(AxisY);
             SetAxisXDatas();
         }
 
@@ -34,7 +34,7 @@ namespace Kybs0Charts
             set => SetValue(BorderBrushProperty, value);
         }
         public new static readonly DependencyProperty BorderBrushProperty = DependencyProperty.Register("BorderBrush",
-            typeof(Brush), typeof(BarChart),
+            typeof(Brush), typeof(LineChart),
             new PropertyMetadata(Brushes.Black));
 
         public new Thickness BorderThickness
@@ -43,16 +43,16 @@ namespace Kybs0Charts
             set => SetValue(BorderThicknessProperty, value);
         }
         public new static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register("BorderThickness",
-            typeof(Thickness), typeof(BarChart),
+            typeof(Thickness), typeof(LineChart),
             new PropertyMetadata(new Thickness(1.0, 0.0, 1.0, 1.0)));
 
-        public AxisYSegmentMode AxisYSegment
+        public AxisYSegmentMode AxisY
         {
-            get => (AxisYSegmentMode)GetValue(AxisYSegmentProperty);
-            set => SetValue(AxisYSegmentProperty, value);
+            get => (AxisYSegmentMode)GetValue(AxisYProperty);
+            set => SetValue(AxisYProperty, value);
         }
-        public static readonly DependencyProperty AxisYSegmentProperty = DependencyProperty.Register("AxisYSegment",
-            typeof(AxisYSegmentMode), typeof(BarChart),
+        public static readonly DependencyProperty AxisYProperty = DependencyProperty.Register("AxisYSegment",
+            typeof(AxisYSegmentMode), typeof(LineChart),
             new PropertyMetadata(new AxisYSegmentMode()));
 
         public AxisXModel AxisX
@@ -61,7 +61,7 @@ namespace Kybs0Charts
             set => SetValue(AxisXProperty, value);
         }
         public static readonly DependencyProperty AxisXProperty = DependencyProperty.Register("AxisX",
-            typeof(AxisXModel), typeof(BarChart),
+            typeof(AxisXModel), typeof(LineChart),
             new PropertyMetadata(new AxisXModel()));
 
         public double HeaderHeight
@@ -70,7 +70,7 @@ namespace Kybs0Charts
             set => SetValue(HeaderHeightProperty, value);
         }
         public static readonly DependencyProperty HeaderHeightProperty = DependencyProperty.Register("HeaderHeight",
-            typeof(double), typeof(BarChart), new PropertyMetadata(20.0));
+            typeof(double), typeof(LineChart), new PropertyMetadata(20.0));
 
         public string Header
         {
@@ -78,7 +78,7 @@ namespace Kybs0Charts
             set => SetValue(HeaderProperty, value);
         }
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header",
-            typeof(string), typeof(BarChart), new PropertyMetadata());
+            typeof(string), typeof(LineChart), new PropertyMetadata());
 
         #endregion
 
@@ -98,7 +98,6 @@ namespace Kybs0Charts
                     BottomGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     MainGridAxisX.ColumnDefinitions.Add(new ColumnDefinition());
                 }
-                double maxYValue = AxisYSegment.Titles.Max(i => i.Value);
                 int index = 0;
                 foreach (var data in axisXModel.Datas)
                 {
@@ -115,43 +114,52 @@ namespace Kybs0Charts
                     Grid.SetColumn(textblock, index);
                     BottomGrid.Children.Add(textblock);
 
+
                     //主内容
-                    var barItem = GenerateBarItem(data, axisXModel.ForeGround, maxYValue, textBlockWidth);
-                    Grid.SetColumn(barItem, index);
-                    MainGridAxisX.Children.Add(barItem);
+                    var stackPanel = new StackPanel();
+                    stackPanel.Orientation = Orientation.Vertical;
+
+                    var tbl = new TextBlock();
+                    tbl.Height = 15;
+                    tbl.Margin = new Thickness(0, 0, 0, 5);
+                    tbl.Text = data.Value.ToString(CultureInfo.InvariantCulture);
+                    tbl.Foreground = axisXModel.ForeGround;
+                    tbl.HorizontalAlignment = HorizontalAlignment.Center;
+                    stackPanel.Children.Add(tbl);
+
+                    var rectangle = new Rectangle();
+                    rectangle.Width = data.BarWidth;
+                    double maxValue = AxisY.Titles.Max(i => i.Value);
+                    var headerHeight = Math.Max(HeaderHeight,TopGrid.ActualHeight);
+                    rectangle.Height = (data.Value / maxValue) * (this.Height - BottomGrid.Height - headerHeight);
+                    var linearBrush = new LinearGradientBrush()
+                    {
+                        StartPoint = new Point(1, 0),
+                        EndPoint = new Point(1, 1),
+                        GradientStops = new GradientStopCollection() {
+                            new GradientStop()
+                            {
+                                Color = data.FillBrush, Offset = 0
+                            }, new GradientStop()
+                            {
+                                Color = data.FillEndBrush, Offset = 1
+                            }
+                        }
+                    };
+                    rectangle.Fill = linearBrush;
+                    rectangle.HorizontalAlignment = HorizontalAlignment.Center;
+
+                    stackPanel.Children.Add(rectangle);
+                    stackPanel.Margin = new Thickness(0, 0, -textBlockWidth / 2, 0);
+                    stackPanel.VerticalAlignment = VerticalAlignment.Bottom;
+                    stackPanel.HorizontalAlignment = HorizontalAlignment.Right;
+                    Grid.SetColumn(stackPanel, index);
+                    MainGridAxisX.Children.Add(stackPanel);
                     index++;
                 }
             }
         }
-
-        private Grid GenerateBarItem(AxisXDataModel data, Brush foregroundBrush, double maxYValue, double textBlockWidth)
-        {
-            var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(maxYValue - data.Value, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(data.Value, GridUnitType.Star) });
-
-            var tbl = new TextBlock();
-            tbl.Height = 15;
-            tbl.Margin = new Thickness(0, -16, 0, 0);
-            tbl.Text = data.Value.ToString(CultureInfo.InvariantCulture);
-            tbl.Foreground = foregroundBrush;
-            tbl.HorizontalAlignment = HorizontalAlignment.Center;
-            tbl.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(tbl,1);
-            grid.Children.Add(tbl);
-
-            var rectangle = new Rectangle();
-            rectangle.Width = data.BarWidth;
-            rectangle.Fill = BrushHelper.GetLinearBrush(data.FillBrush, data.FillEndBrush);
-            rectangle.HorizontalAlignment = HorizontalAlignment.Center;
-            Grid.SetRow(rectangle, 1);
-            grid.Children.Add(rectangle);
-
-            grid.Margin = new Thickness(0, 0, -textBlockWidth / 2, 0);
-            grid.HorizontalAlignment = HorizontalAlignment.Right;
-            return grid;
-        }
-
+        
         #endregion
     }
 }

@@ -26,7 +26,7 @@
                                        HorizontalAlignment="Center"></TextBlock>
                         </Grid>
                         <Grid x:Name="LeftGrid" Grid.Row="1" Grid.Column="0" Width="20"/>
-                        <Grid x:Name="RightGrid" Grid.Row="1" Grid.Column="2"/>
+                        <Grid x:Name="RightGrid" Grid.Row="1" Grid.Column="2" Width="20"/>
                         <Grid x:Name="BottomGrid" Grid.Row="2" Grid.Column="1" Height="20"/>
 
                         <!--主体背景区域-->
@@ -39,7 +39,7 @@
 
                         <!--主体内容区域-->
                         <!--X轴竖直显示的数据-->
-                        <Grid x:Name="MainGridAxisX" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"/>
+                        <Grid x:Name="MainGridAxisX" Grid.Row="1" Grid.Column="1"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -17,6 +17,6 @@ namespace Kybs0Charts
         /// <summary>
         /// 值
         /// </summary>
-        public double Value { get; set; }
+        public int Value { get; set; }
     }
 }
