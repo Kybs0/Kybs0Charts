@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,118 +9,85 @@ using System.Windows.Shapes;
 
 namespace Kybs0Charts
 {
-    public partial class BarChartControl : UserControl
+    public class BarChart : ChartBase
     {
-        static BarChartControl()
+        static BarChart()
         {
             // 覆盖基类的默认样式，重新提供一个新的默认样式。
             DefaultStyleKeyProperty.OverrideMetadata(
-                typeof(BarChartControl), new FrameworkPropertyMetadata(typeof(BarChartControl)));
+                typeof(BarChart), new FrameworkPropertyMetadata(typeof(BarChart)));
         }
 
-        public override void OnApplyTemplate()
-        {
-            HeaderGrid = (Grid)Template.FindName(nameof(HeaderGrid), this);
-            LeftGrid = (Grid)Template.FindName(nameof(LeftGrid), this);
-            MainBorder = (Border)Template.FindName(nameof(MainBorder), this);
-            MainGridForRow1 = (Grid)Template.FindName(nameof(MainGridForRow1), this);
-            MainGridFrom0To1 = (Grid)Template.FindName(nameof(MainGridFrom0To1), this);
-            RightGrid = (Grid)Template.FindName(nameof(RightGrid), this);
-            BottomGrid = (Grid)Template.FindName(nameof(BottomGrid), this);
-            InitTemplateViewContent();
-        }
-
-        private void InitTemplateViewContent()
+        protected override void InitTemplateViewContent()
         {
             LeftGrid.Width = AxisY.Width;
             BottomGrid.Height = AxisX.Height;
-            SetYTitlesContent();
-            SetXDatasContent();
+            SetYIntervalsAndLines();
+            SetAxisXDatas();
         }
-
-        #region 布局
-
-        /// <summary>
-        /// 如果试图在模板应用之前获取此值，则为 null。
-        /// 请注意：如果尚未显示之前，或者刚显示时处于 Collapse 的状态，则会保持此值为 null。
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Grid HeaderGrid;
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Grid LeftGrid;
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Border MainBorder;
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Grid MainGridForRow1;
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Grid MainGridFrom0To1;
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Grid RightGrid;
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private Grid BottomGrid;
-        #endregion
 
         #region 属性
 
-        public Brush BorderBrush
+        public new Brush BorderBrush
         {
-            get { return (Brush)GetValue(BorderBrushProperty); }
-            set { SetValue(BorderBrushProperty, value); }
+            get => (Brush)GetValue(BorderBrushProperty);
+            set => SetValue(BorderBrushProperty, value);
         }
-
-        public static readonly DependencyProperty BorderBrushProperty = DependencyProperty.Register("BorderBrush",
-            typeof(Brush), typeof(BarChartControl),
+        public new static readonly DependencyProperty BorderBrushProperty = DependencyProperty.Register("BorderBrush",
+            typeof(Brush), typeof(BarChart),
             new PropertyMetadata(Brushes.Black));
 
-        public Thickness BorderThickness
+        public new Thickness BorderThickness
         {
-            get { return (Thickness)GetValue(BorderThicknessProperty); }
-            set { SetValue(BorderThicknessProperty, value); }
+            get => (Thickness)GetValue(BorderThicknessProperty);
+            set => SetValue(BorderThicknessProperty, value);
         }
-
-        public static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register("BorderThickness",
-            typeof(Thickness), typeof(BarChartControl),
+        public new static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register("BorderThickness",
+            typeof(Thickness), typeof(BarChart),
             new PropertyMetadata(new Thickness(1.0, 0.0, 1.0, 1.0)));
 
         public AxisYModel AxisY
         {
-            get { return (AxisYModel)GetValue(AxisYProperty); }
-            set { SetValue(AxisYProperty, value); }
+            get => (AxisYModel)GetValue(AxisYProperty);
+            set => SetValue(AxisYProperty, value);
         }
-
         public static readonly DependencyProperty AxisYProperty = DependencyProperty.Register("AxisY",
-            typeof(AxisYModel), typeof(BarChartControl),
+            typeof(AxisYModel), typeof(BarChart),
             new PropertyMetadata(new AxisYModel()));
 
         public AxisXModel AxisX
         {
-            get { return (AxisXModel)GetValue(AxisXProperty); }
-            set { SetValue(AxisXProperty, value); }
+            get => (AxisXModel)GetValue(AxisXProperty);
+            set => SetValue(AxisXProperty, value);
         }
-
         public static readonly DependencyProperty AxisXProperty = DependencyProperty.Register("AxisX",
-            typeof(AxisXModel), typeof(BarChartControl),
+            typeof(AxisXModel), typeof(BarChart),
             new PropertyMetadata(new AxisXModel()));
+
         public double HeaderHeight
         {
-            get { return (double)GetValue(HeaderHeightProperty); }
-            set { SetValue(HeaderHeightProperty, value); }
+            get => (double)GetValue(HeaderHeightProperty);
+            set => SetValue(HeaderHeightProperty, value);
         }
         public static readonly DependencyProperty HeaderHeightProperty = DependencyProperty.Register("HeaderHeight",
-            typeof(double), typeof(BarChartControl), new PropertyMetadata(10.0));
+            typeof(double), typeof(BarChart), new PropertyMetadata(20.0));
+
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header",
-            typeof(string), typeof(BarChartControl), new PropertyMetadata());
+            typeof(string), typeof(BarChart), new PropertyMetadata());
 
         #endregion
 
         #region 内部方法
 
-        private void SetXDatasContent()
+        /// <summary>
+        /// 设置X轴竖直方向的排列数据显示
+        /// </summary>
+        private void SetAxisXDatas()
         {
             var axisXModel = AxisX;
             if (axisXModel.Datas.Count > 0)
@@ -131,7 +96,7 @@ namespace Kybs0Charts
                 for (int i = 0; i < count + 1; i++)
                 {
                     BottomGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                    MainGridFrom0To1.ColumnDefinitions.Add(new ColumnDefinition());
+                    MainGridAxisX.ColumnDefinitions.Add(new ColumnDefinition());
                 }
                 int index = 0;
                 foreach (var data in axisXModel.Datas)
@@ -157,7 +122,7 @@ namespace Kybs0Charts
                     var tbl = new TextBlock();
                     tbl.Height = 15;
                     tbl.Margin = new Thickness(0, 0, 0, 5);
-                    tbl.Text = data.Value.ToString();
+                    tbl.Text = data.Value.ToString(CultureInfo.InvariantCulture);
                     tbl.Foreground = axisXModel.ForeGround;
                     tbl.HorizontalAlignment = HorizontalAlignment.Center;
                     stackPanel.Children.Add(tbl);
@@ -165,7 +130,8 @@ namespace Kybs0Charts
                     var rectangle = new Rectangle();
                     rectangle.Width = data.BarWidth;
                     double maxValue = AxisY.Titles.Max(i => i.Value);
-                    rectangle.Height = (data.Value / maxValue) * (this.Height - BottomGrid.Height - HeaderHeight);
+                    var headerHeight = Math.Max(HeaderHeight,TopGrid.ActualHeight);
+                    rectangle.Height = (data.Value / maxValue) * (this.Height - BottomGrid.Height - headerHeight);
                     var linearBrush = new LinearGradientBrush()
                     {
                         StartPoint = new Point(1, 0),
@@ -188,13 +154,15 @@ namespace Kybs0Charts
                     stackPanel.VerticalAlignment = VerticalAlignment.Bottom;
                     stackPanel.HorizontalAlignment = HorizontalAlignment.Right;
                     Grid.SetColumn(stackPanel, index);
-                    MainGridFrom0To1.Children.Add(stackPanel);
+                    MainGridAxisX.Children.Add(stackPanel);
                     index++;
                 }
             }
         }
-
-        private void SetYTitlesContent()
+        /// <summary>
+        /// 设置Y轴方向间隔以及分割线
+        /// </summary>
+        private void SetYIntervalsAndLines()
         {
             var axisYModel = AxisY;
             if (axisYModel.Titles.Count > 0)
@@ -203,7 +171,7 @@ namespace Kybs0Charts
                 for (int i = 0; i < gridRows; i++)
                 {
                     LeftGrid.RowDefinitions.Add(new RowDefinition());
-                    MainGridForRow1.RowDefinitions.Add(new RowDefinition());
+                    MainGridYLines.RowDefinitions.Add(new RowDefinition());
                 }
                 int index = 0;
                 foreach (var title in axisYModel.Titles)
@@ -246,7 +214,7 @@ namespace Kybs0Charts
                     }
                     Grid.SetColumn(border, 0);
                     Grid.SetColumnSpan(border, AxisX.Datas.Count + 1);
-                    MainGridForRow1.Children.Add(border);
+                    MainGridYLines.Children.Add(border);
                     index++;
                 }
             }

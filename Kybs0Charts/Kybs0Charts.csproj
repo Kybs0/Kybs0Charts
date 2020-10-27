@@ -45,7 +45,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BarChart\BarChartControl.cs" />
+    <Compile Include="BarChart\BarChart.cs" />
+    <Compile Include="Common\ChartBase.cs" />
     <Compile Include="Modes\AxisXModel.cs" />
     <Compile Include="Modes\AxisYDataModel.cs" />
     <Compile Include="Modes\AxisYModel.cs" />

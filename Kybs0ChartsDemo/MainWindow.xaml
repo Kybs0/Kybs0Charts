@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <kybs0Charts:BarChartControl BorderBrush="White" 
-                                          Width="500" Height="250" 
-                                          BorderThickness="1,0,1,0" HeaderHeight="20">
-            <kybs0Charts:BarChartControl.AxisY>
-                <kybs0Charts:AxisYModel Width="30" ForeGround="White">
+        <kybs0Charts:BarChart BorderBrush="White" Width="500" Height="250" 
+                              BorderThickness="1,0,1,0" HeaderHeight="60"
+                              Header="柱状图表">
+            <kybs0Charts:BarChart.AxisY>
+                <kybs0Charts:AxisYModel Width="30" ForeGround="#000">
                     <kybs0Charts:AxisYModel.Titles>
                         <kybs0Charts:AxisYDataModel Name="0" Value="0"></kybs0Charts:AxisYDataModel>
                         <kybs0Charts:AxisYDataModel Name="20" Value="20"></kybs0Charts:AxisYDataModel>
@@ -21,9 +21,9 @@
                         <kybs0Charts:AxisYDataModel Name="100" Value="100"></kybs0Charts:AxisYDataModel>
                     </kybs0Charts:AxisYModel.Titles>
                 </kybs0Charts:AxisYModel>
-            </kybs0Charts:BarChartControl.AxisY>
-            <kybs0Charts:BarChartControl.AxisX>
-                <kybs0Charts:AxisXModel Height="30" ForeGround="White">
+            </kybs0Charts:BarChart.AxisY>
+            <kybs0Charts:BarChart.AxisX>
+                <kybs0Charts:AxisXModel Height="30" ForeGround="#666666">
                     <kybs0Charts:AxisXModel.Datas>
                         <kybs0Charts:AxisXDataModel Name="A" Value="100" FillBrush="DeepSkyBlue" FillEndBrush="#FF6CD7FB"></kybs0Charts:AxisXDataModel>
                         <kybs0Charts:AxisXDataModel Name="B" Value="50"  FillBrush="#FF06F906" FillEndBrush="#FF5CF95C"></kybs0Charts:AxisXDataModel>
@@ -33,7 +33,7 @@
                         <kybs0Charts:AxisXDataModel Name="F" Value="60" FillBrush="Coral" FillEndBrush="#FFF9A181"></kybs0Charts:AxisXDataModel>
                     </kybs0Charts:AxisXModel.Datas>
                 </kybs0Charts:AxisXModel>
-            </kybs0Charts:BarChartControl.AxisX>
-        </kybs0Charts:BarChartControl>
+            </kybs0Charts:BarChart.AxisX>
+        </kybs0Charts:BarChart>
     </Grid>
 </Window>
