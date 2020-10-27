@@ -48,10 +48,10 @@
     <Compile Include="BarChart\BarChart.cs" />
     <Compile Include="Common\ChartBase.cs" />
     <Compile Include="Common\Helper\BrushHelper.cs" />
-    <Compile Include="LineChart\LineChart.cs" />
+    <Compile Include="LineChart\BarChart.cs" />
     <Compile Include="Modes\AxisXModel.cs" />
-    <Compile Include="Modes\AxisYDataModel.cs" />
-    <Compile Include="Modes\AxisYSegmentMode.cs" />
+    <Compile Include="Modes\AxisSegmentItem.cs" />
+    <Compile Include="Modes\AxisSegmentMode.cs" />
     <Compile Include="Modes\BindingPropertyBase.cs" />
     <Compile Include="Modes\DefinedCollection.cs" />
     <Compile Include="Modes\DataModel.cs" />

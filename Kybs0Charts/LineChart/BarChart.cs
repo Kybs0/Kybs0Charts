@@ -9,13 +9,13 @@ using System.Windows.Shapes;
 
 namespace Kybs0Charts
 {
-    public class BarChart : ChartBase
+    public class LineChart : ChartBase
     {
-        static BarChart()
+        static LineChart()
         {
             // 覆盖基类的默认样式，重新提供一个新的默认样式。
             DefaultStyleKeyProperty.OverrideMetadata(
-                typeof(BarChart), new FrameworkPropertyMetadata(typeof(BarChart)));
+                typeof(LineChart), new FrameworkPropertyMetadata(typeof(LineChart)));
         }
 
         protected override void InitTemplateViewContent()
@@ -70,7 +70,7 @@ namespace Kybs0Charts
             set => SetValue(AxisYSegmentProperty, value);
         }
         public static readonly DependencyProperty AxisYSegmentProperty = DependencyProperty.Register("AxisYSegment",
-            typeof(AxisSegmentMode), typeof(BarChart),
+            typeof(AxisSegmentMode), typeof(LineChart),
             new PropertyMetadata(new AxisSegmentMode()));
 
         #endregion
@@ -82,7 +82,7 @@ namespace Kybs0Charts
             set => SetValue(AxisXSegmentProperty, value);
         }
         public static readonly DependencyProperty AxisXSegmentProperty = DependencyProperty.Register("AxisXSegment",
-            typeof(AxisSegmentMode), typeof(BarChart),
+            typeof(AxisSegmentMode), typeof(LineChart),
             new PropertyMetadata(default(AxisSegmentMode)));
 
         #endregion
@@ -95,7 +95,7 @@ namespace Kybs0Charts
             set => SetValue(AxisXProperty, value);
         }
         public static readonly DependencyProperty AxisXProperty = DependencyProperty.Register("AxisX",
-            typeof(AxisXModel), typeof(BarChart),
+            typeof(AxisXModel), typeof(LineChart),
             new PropertyMetadata(new AxisXModel()));
 
         #endregion
@@ -106,7 +106,7 @@ namespace Kybs0Charts
             set => SetValue(BorderBrushProperty, value);
         }
         public new static readonly DependencyProperty BorderBrushProperty = DependencyProperty.Register("BorderBrush",
-            typeof(Brush), typeof(BarChart),
+            typeof(Brush), typeof(LineChart),
             new PropertyMetadata(Brushes.Black));
 
         public new Thickness BorderThickness
@@ -115,7 +115,7 @@ namespace Kybs0Charts
             set => SetValue(BorderThicknessProperty, value);
         }
         public new static readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register("BorderThickness",
-            typeof(Thickness), typeof(BarChart),
+            typeof(Thickness), typeof(LineChart),
             new PropertyMetadata(new Thickness(1.0, 0.0, 1.0, 1.0)));
 
         public double HeaderHeight
@@ -124,7 +124,7 @@ namespace Kybs0Charts
             set => SetValue(HeaderHeightProperty, value);
         }
         public static readonly DependencyProperty HeaderHeightProperty = DependencyProperty.Register("HeaderHeight",
-            typeof(double), typeof(BarChart), new PropertyMetadata(20.0));
+            typeof(double), typeof(LineChart), new PropertyMetadata(20.0));
 
         public string Header
         {
@@ -132,7 +132,7 @@ namespace Kybs0Charts
             set => SetValue(HeaderProperty, value);
         }
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header",
-            typeof(string), typeof(BarChart), new PropertyMetadata());
+            typeof(string), typeof(LineChart), new PropertyMetadata());
 
         #endregion
 

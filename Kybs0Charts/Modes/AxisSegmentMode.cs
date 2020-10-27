@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Kybs0Charts
 {
-    public class AxisYSegmentMode : BindingPropertyBase
+    public class AxisSegmentMode : BindingPropertyBase
     {
         private double _width = 20;
         /// <summary>
@@ -83,9 +83,9 @@ namespace Kybs0Charts
         }
 
         /// <summary>
-        /// 左侧标题列表
+        /// 标题列表
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public DefinedCollection<AxisYDataModel> Titles { get; set; } = new DefinedCollection<AxisYDataModel>();
+        public DefinedCollection<AxisSegmentItem> SegmentItems { get; set; } = new DefinedCollection<AxisSegmentItem>();
     }
 }

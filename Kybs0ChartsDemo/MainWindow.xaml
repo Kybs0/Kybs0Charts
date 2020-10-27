@@ -6,36 +6,34 @@
         xmlns:kybs0Charts="clr-namespace:Kybs0Charts;assembly=Kybs0Charts"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <ScrollViewer>
-        <!--<StackPanel Margin="0 30">-->
-            <kybs0Charts:BarChart BorderBrush="White"
+    <Grid>
+        <kybs0Charts:BarChart BorderBrush="White"
                               BorderThickness="1,0,1,0" HeaderHeight="60"
                               Header="柱状图表">
-                <kybs0Charts:BarChart.AxisYSegment>
-                    <kybs0Charts:AxisYSegmentMode Width="30" ForeGround="#000">
-                        <kybs0Charts:AxisYSegmentMode.Titles>
-                            <kybs0Charts:AxisYDataModel Name="0" Value="0"></kybs0Charts:AxisYDataModel>
-                            <kybs0Charts:AxisYDataModel Name="20" Value="20"></kybs0Charts:AxisYDataModel>
-                            <kybs0Charts:AxisYDataModel Name="40" Value="40"></kybs0Charts:AxisYDataModel>
-                            <kybs0Charts:AxisYDataModel Name="60" Value="60"></kybs0Charts:AxisYDataModel>
-                            <kybs0Charts:AxisYDataModel Name="80" Value="80"></kybs0Charts:AxisYDataModel>
-                            <kybs0Charts:AxisYDataModel Name="100" Value="100"></kybs0Charts:AxisYDataModel>
-                        </kybs0Charts:AxisYSegmentMode.Titles>
-                    </kybs0Charts:AxisYSegmentMode>
-                </kybs0Charts:BarChart.AxisYSegment>
-                <kybs0Charts:BarChart.AxisX>
-                    <kybs0Charts:AxisXModel Height="30" ForeGround="#666666">
-                        <kybs0Charts:AxisXModel.Datas>
-                            <kybs0Charts:AxisXDataModel Name="A" Value="100" FillBrush="DeepSkyBlue" FillEndBrush="#FF6CD7FB"></kybs0Charts:AxisXDataModel>
-                            <kybs0Charts:AxisXDataModel Name="B" Value="50"  FillBrush="#FF06F906" FillEndBrush="#FF5CF95C"></kybs0Charts:AxisXDataModel>
-                            <kybs0Charts:AxisXDataModel Name="C" Value="70"  FillBrush="Cyan" FillEndBrush="#FF4DFFFF"></kybs0Charts:AxisXDataModel>
-                            <kybs0Charts:AxisXDataModel Name="D" Value="30" FillBrush="GreenYellow" FillEndBrush="#FFBFFD60"></kybs0Charts:AxisXDataModel>
-                            <kybs0Charts:AxisXDataModel Name="E" Value="86" FillBrush="DarkOrchid" FillEndBrush="#FFCC73F7"></kybs0Charts:AxisXDataModel>
-                            <kybs0Charts:AxisXDataModel Name="F" Value="60" FillBrush="Coral" FillEndBrush="#FFF9A181"></kybs0Charts:AxisXDataModel>
-                        </kybs0Charts:AxisXModel.Datas>
-                    </kybs0Charts:AxisXModel>
-                </kybs0Charts:BarChart.AxisX>
-            </kybs0Charts:BarChart>
-        <!--</StackPanel>-->
-    </ScrollViewer>
+            <kybs0Charts:BarChart.AxisYSegment>
+                <kybs0Charts:AxisSegmentMode Width="30" ForeGround="#000">
+                    <kybs0Charts:AxisSegmentMode.SegmentItems>
+                        <kybs0Charts:AxisSegmentItem Name="0" Value="0"/>
+                        <kybs0Charts:AxisSegmentItem Name="20" Value="20"/>
+                        <kybs0Charts:AxisSegmentItem Name="40" Value="40"/>
+                        <kybs0Charts:AxisSegmentItem Name="60" Value="60"/>
+                        <kybs0Charts:AxisSegmentItem Name="80" Value="80"/>
+                        <kybs0Charts:AxisSegmentItem Name="100" Value="100"/>
+                    </kybs0Charts:AxisSegmentMode.SegmentItems>
+                </kybs0Charts:AxisSegmentMode>
+            </kybs0Charts:BarChart.AxisYSegment>
+            <kybs0Charts:BarChart.AxisX>
+                <kybs0Charts:AxisXModel Height="30" ForeGround="#666666">
+                    <kybs0Charts:AxisXModel.Datas>
+                        <kybs0Charts:AxisXDataModel Name="A" Value="100" FillBrush="DeepSkyBlue" FillEndBrush="#FF6CD7FB"/>
+                        <kybs0Charts:AxisXDataModel Name="B" Value="50"  FillBrush="#FF06F906" FillEndBrush="#FF5CF95C"/>
+                        <kybs0Charts:AxisXDataModel Name="C" Value="70"  FillBrush="Cyan" FillEndBrush="#FF4DFFFF"/>
+                        <kybs0Charts:AxisXDataModel Name="D" Value="30" FillBrush="GreenYellow" FillEndBrush="#FFBFFD60"/>
+                        <kybs0Charts:AxisXDataModel Name="E" Value="86" FillBrush="DarkOrchid" FillEndBrush="#FFCC73F7"/>
+                        <kybs0Charts:AxisXDataModel Name="F" Value="60" FillBrush="Coral" FillEndBrush="#FFF9A181"/>
+                    </kybs0Charts:AxisXModel.Datas>
+                </kybs0Charts:AxisXModel>
+            </kybs0Charts:BarChart.AxisX>
+        </kybs0Charts:BarChart>
+    </Grid>
 </Window>

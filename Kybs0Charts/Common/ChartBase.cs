@@ -81,42 +81,42 @@ namespace Kybs0Charts
         /// <summary>
         /// 设置Y轴方向间隔以及分割线
         /// </summary>
-        protected void SetYIntervalsAndLines(AxisYSegmentMode axisYSegmentMode)
+        protected void SetYIntervalsAndLines(AxisSegmentMode axisYSegmentMode)
         {
-            if (axisYSegmentMode.Titles.Count > 0)
+            if (axisYSegmentMode.SegmentItems.Count > 0)
             {
-                int gridRows = axisYSegmentMode.Titles.Count - 1;
+                int gridRows = axisYSegmentMode.SegmentItems.Count - 1;
                 for (int i = 0; i < gridRows; i++)
                 {
                     LeftGrid.RowDefinitions.Add(new RowDefinition());
                     MainGridYLines.RowDefinitions.Add(new RowDefinition());
                 }
                 int index = 0;
-                foreach (var title in axisYSegmentMode.Titles)
+                foreach (var title in axisYSegmentMode.SegmentItems)
                 {
                     var textblock = new TextBlock();
                     textblock.Text = title.Name;
                     textblock.Foreground = axisYSegmentMode.ForeGround;
                     textblock.HorizontalAlignment = HorizontalAlignment.Right;
-                    textblock.Height = title.LabelHeight;
+                    textblock.Height = axisYSegmentMode.LabelHeight;
                     if (index < gridRows)
                     {
                         textblock.VerticalAlignment = VerticalAlignment.Bottom;
-                        textblock.Margin = new Thickness(0, 0, 5, -title.LabelHeight / 2);//因为设置在行底部还不够,必须往下移
+                        textblock.Margin = new Thickness(0, 0, 5, -axisYSegmentMode.LabelHeight / 2);//因为设置在行底部还不够,必须往下移
                         Grid.SetRow(textblock, gridRows - index - 1);
                     }
                     else
                     {
                         textblock.VerticalAlignment = VerticalAlignment.Top;
-                        textblock.Margin = new Thickness(0, -title.LabelHeight / 2, 5, 0);//最后一个,设置在顶部
+                        textblock.Margin = new Thickness(0, -axisYSegmentMode.LabelHeight / 2, 5, 0);//最后一个,设置在顶部
                         Grid.SetRow(textblock, 0);
                     }
                     LeftGrid.Children.Add(textblock);
 
                     var border = new Border();
-                    border.Height = title.LineHeight;
-                    border.BorderBrush = title.LineBrush;
-                    double thickness = Convert.ToDouble(title.LineHeight) / 2;
+                    border.Height = axisYSegmentMode.LineHeight;
+                    border.BorderBrush = axisYSegmentMode.LineBrush;
+                    double thickness = Convert.ToDouble(axisYSegmentMode.LineHeight) / 2;
                     border.BorderThickness = new Thickness(0, thickness, 0, thickness);
                     if (index < gridRows)
                     {
