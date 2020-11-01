@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kybs0Charts="clr-namespace:Kybs0Charts;assembly=Kybs0Charts"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
@@ -16,8 +16,8 @@
         </Grid.RowDefinitions>
         <Grid HorizontalAlignment="Center" Height="40">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <RadioButton x:Name="BarChartButton" Content="柱状图表" IsChecked="True"></RadioButton>
-                <RadioButton x:Name="LinetChartButton" Content="线型图表" Margin="12 0 0 0"></RadioButton>
+                <RadioButton x:Name="BarChartButton" Content="柱状图表" ></RadioButton>
+                <RadioButton x:Name="LinetChartButton" Content="线型图表" Margin="12 0 0 0" IsChecked="True"></RadioButton>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">

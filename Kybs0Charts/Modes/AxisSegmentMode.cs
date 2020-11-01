@@ -68,7 +68,7 @@ namespace Kybs0Charts
         }
 
 
-        private Brush _lineBrush = Brushes.LightGray;
+        private Brush _lineBrush = Brushes.Gray;
         /// <summary>
         /// Bar填充颜色
         /// </summary>
