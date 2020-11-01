@@ -41,14 +41,14 @@ namespace Kybs0Charts
             set { _height = value; OnPropertyChanged(); }
         }
 
-        private Brush _foreGround = Brushes.Black;
+        private Brush _foreground = Brushes.Black;
         /// <summary>
         /// 字体颜色
         /// </summary>
-        public Brush ForeGround
+        public Brush Foreground
         {
-            get { return _foreGround; }
-            set { _foreGround = value; OnPropertyChanged(); }
+            get { return _foreground; }
+            set { _foreground = value; OnPropertyChanged(); }
         }
         private double _barWidth = 30;
         /// <summary>

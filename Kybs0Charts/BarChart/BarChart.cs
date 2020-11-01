@@ -46,7 +46,7 @@ namespace Kybs0Charts
                         //底部
                         var textblock = new TextBlock();
                         textblock.Text = data.Name;
-                        textblock.Foreground = axisXModel.ForeGround;
+                        textblock.Foreground = axisXModel.Foreground;
                         textblock.VerticalAlignment = VerticalAlignment.Top;
                         textblock.TextAlignment = TextAlignment.Center;
                         textblock.HorizontalAlignment = HorizontalAlignment.Right;
@@ -157,7 +157,7 @@ namespace Kybs0Charts
                 {
                     //主内容
                     double textBlockWidth = data.LabelWidth;
-                    var barItem = GenerateBarItem(data, axisXModel.ForeGround, maxYValue, textBlockWidth);
+                    var barItem = GenerateBarItem(data, axisXModel.Foreground, maxYValue, textBlockWidth);
                     Grid.SetColumn(barItem, index);
                     MainGridAxisX.Children.Add(barItem);
                     index++;

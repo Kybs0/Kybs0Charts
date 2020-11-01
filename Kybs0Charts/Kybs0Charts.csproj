@@ -48,7 +48,7 @@
     <Compile Include="BarChart\BarChart.cs" />
     <Compile Include="Common\ChartBase.cs" />
     <Compile Include="Common\Helper\BrushHelper.cs" />
-    <Compile Include="LineChart\BarChart.cs" />
+    <Compile Include="LineChart\LineChart.cs" />
     <Compile Include="Modes\AxisXModel.cs" />
     <Compile Include="Modes\AxisSegmentItem.cs" />
     <Compile Include="Modes\AxisSegmentMode.cs" />
@@ -60,6 +60,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Styles\Style.LineChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Style.BarChart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

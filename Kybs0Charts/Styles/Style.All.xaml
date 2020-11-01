@@ -4,5 +4,6 @@
                     xmlns:kybs0Charts="clr-namespace:Kybs0Charts">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Style.BarChart.xaml"/>
+        <ResourceDictionary Source="Style.LineChart.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

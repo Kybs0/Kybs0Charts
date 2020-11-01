@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:kybs0Charts="clr-namespace:Kybs0Charts">
+    <ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary.MergedDictionaries>
+    <Style  TargetType="kybs0Charts:LineChart">
+        <Setter Property="Foreground" Value="#6666"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="kybs0Charts:LineChart">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--上下左右区域-->
+                        <Grid x:Name="TopGrid" Grid.Row="0" Grid.Column="1" MinHeight="{TemplateBinding HeaderHeight}">
+                            <TextBlock Text="{TemplateBinding Header}" FontSize="24" FontWeight="Bold" Foreground="#333"
+                                       HorizontalAlignment="Center"></TextBlock>
+                        </Grid>
+                        <Grid x:Name="LeftGrid" Grid.Row="1" Grid.Column="0" Width="20"/>
+                        <Grid x:Name="RightGrid" Grid.Row="1" Grid.Column="2" Width="20"/>
+                        <Grid x:Name="BottomGrid" Grid.Row="2" Grid.Column="1" Height="20"/>
+
+                        <!--主体背景区域-->
+                        <Border x:Name="MainBorder" Grid.Row="1" Grid.Column="1" 
+                                BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"/>
+                        <!--X轴竖直方向的分割线-->
+                        <Grid x:Name="MainGridXLines" Grid.Row="1" Grid.Column="1" />
+                        <!--Y轴水平方向的分割线-->
+                        <Grid x:Name="MainGridYLines" Grid.Row="1" Grid.Column="1" />
+
+                        <!--主体内容区域-->
+                        <!--X轴竖直显示的数据-->
+                        <Grid x:Name="MainGridAxisX" Grid.Row="1" Grid.Column="1"/>
+                        <Canvas x:Name="MainGridCanvas" Grid.Row="1" Grid.Column="1"></Canvas>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

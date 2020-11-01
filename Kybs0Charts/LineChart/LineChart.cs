@@ -20,11 +20,18 @@ namespace Kybs0Charts
 
         protected override void InitTemplateViewContent()
         {
+            MainGridCanvas= (Canvas)Template.FindName(nameof(MainGridCanvas), this);
             LeftGrid.Width = AxisYSegment.Width;
             BottomGrid.Height = AxisX.Height;
             SetYIntervalsAndLines(AxisYSegment);
             SetXIntervalsAndLines(AxisXSegment);
             SetAxisXDatas();
+            MainGridCanvas.SizeChanged += MainGridCanvas_SizeChanged;
+        }
+
+        private void MainGridCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateAxisLine();
         }
 
         private void SetXIntervalsAndLines(AxisSegmentMode axisYSegment)
@@ -36,7 +43,7 @@ namespace Kybs0Charts
                 {
                     //使用数据添加X轴坐标
                     int count = axisXModel.Datas.Count;
-                    for (int i = 0; i < count + 1; i++)
+                    for (int i = 0; i < count; i++)
                     {
                         BottomGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     }
@@ -46,13 +53,12 @@ namespace Kybs0Charts
                         //底部
                         var textblock = new TextBlock();
                         textblock.Text = data.Name;
-                        textblock.Foreground = axisXModel.ForeGround;
+                        textblock.Foreground = axisXModel.Foreground;
                         textblock.VerticalAlignment = VerticalAlignment.Top;
                         textblock.TextAlignment = TextAlignment.Center;
                         textblock.HorizontalAlignment = HorizontalAlignment.Right;
-                        double textBlockWidth = data.LabelWidth;
                         textblock.Width = data.LabelWidth;
-                        textblock.Margin = new Thickness(0, 5, -textBlockWidth / 2, 0);
+                        textblock.Margin = new Thickness(0, 5, -data.LabelWidth/2, 0);
                         Grid.SetColumn(textblock, index);
                         BottomGrid.Children.Add(textblock);
                         index++;
@@ -62,6 +68,9 @@ namespace Kybs0Charts
         }
 
         #region 属性
+
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        protected Canvas MainGridCanvas;
 
         #region YSegement
         public AxisSegmentMode AxisYSegment
@@ -143,26 +152,66 @@ namespace Kybs0Charts
         /// </summary>
         private void SetAxisXDatas()
         {
+            //添加自适应显示部分
+            //var axisXModel = AxisX;
+            //if (axisXModel.Datas.Count > 0)
+            //{
+            //    double maxYValue = AxisYSegment.SegmentItems.Max(i => i.Value);
+            //    int index = 0;
+            //    foreach (var data in axisXModel.Datas)
+            //    {
+            //        //主内容
+            //        double textBlockWidth = data.LabelWidth;
+            //        var barItem = GenerateBarItem(data, axisXModel.Foreground, maxYValue, textBlockWidth);
+            //        Grid.SetColumn(barItem, index);
+            //        MainGridAxisX.Children.Add(barItem);
+            //        index++;
+            //    }
+            //}
+            //需要重新绘制部分
+            UpdateAxisLine();
+        }
+        private void UpdateAxisLine()
+        {
+            MainGridCanvas.Children.Clear();
             var axisXModel = AxisX;
             if (axisXModel.Datas.Count > 0)
             {
-                int count = axisXModel.Datas.Count;
-                for (int i = 0; i < count + 1; i++)
-                {
-                    MainGridAxisX.ColumnDefinitions.Add(new ColumnDefinition());
-                }
                 double maxYValue = AxisYSegment.SegmentItems.Max(i => i.Value);
                 int index = 0;
+                var startPoint = new Point(0, MainGridCanvas.ActualHeight);
                 foreach (var data in axisXModel.Datas)
                 {
-                    //主内容
-                    double textBlockWidth = data.LabelWidth;
-                    var barItem = GenerateBarItem(data, axisXModel.ForeGround, maxYValue, textBlockWidth);
-                    Grid.SetColumn(barItem, index);
-                    MainGridAxisX.Children.Add(barItem);
+                    //线条
+                    var endY = MainGridCanvas.ActualHeight-MainGridCanvas.ActualHeight * data.Value / maxYValue;
+                    var endX = MainGridCanvas.ActualWidth * (index + 1) / axisXModel.Datas.Count;
+                    var endPoint = new Point(endX, endY);
+                    Line line = new Line();
+                    line.Stroke = System.Windows.Media.Brushes.DarkGray;
+                    line.X1 = startPoint.X;
+                    line.Y1 = startPoint.Y;
+                    startPoint = endPoint;
+                    line.X2 = endPoint.X;
+                    line.Y2 = endPoint.Y;
+                    MainGridCanvas.Children.Add(line);
                     index++;
                 }
             }
+            ////绘制
+
+            //Line myLine = new Line();
+            //myLine.Stroke = System.Windows.Media.Brushes.LightSteelBlue;
+            //myLine.X1 = 1;
+            //myLine.X2 = 50;
+            //myLine.Y1 = 1;
+            //myLine.Y2 = 50;
+            //var canvas = new Canvas(){Width = 50,Height = 50};
+            //canvas.Children.Add(myLine);
+            //var viewbox = new Viewbox();
+            //viewbox.Child = canvas;
+            //viewbox.Stretch = Stretch.UniformToFill;
+            //viewbox.StretchDirection = StretchDirection.Both;
+            //MainGridAxisX.Children.Add(viewbox);
         }
 
         private Grid GenerateBarItem(AxisXDataModel data, Brush foregroundBrush, double maxYValue, double textBlockWidth)
@@ -188,7 +237,7 @@ namespace Kybs0Charts
             Grid.SetRow(rectangle, 1);
             grid.Children.Add(rectangle);
 
-            grid.Margin = new Thickness(0, 0, -textBlockWidth / 2, 0);
+            grid.Margin = new Thickness(0, 0, 0, 0);
             grid.HorizontalAlignment = HorizontalAlignment.Right;
             return grid;
         }
