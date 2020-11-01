@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -153,21 +154,26 @@ namespace Kybs0Charts
         private void SetAxisXDatas()
         {
             //添加自适应显示部分
-            //var axisXModel = AxisX;
-            //if (axisXModel.Datas.Count > 0)
-            //{
-            //    double maxYValue = AxisYSegment.SegmentItems.Max(i => i.Value);
-            //    int index = 0;
-            //    foreach (var data in axisXModel.Datas)
-            //    {
-            //        //主内容
-            //        double textBlockWidth = data.LabelWidth;
-            //        var barItem = GenerateBarItem(data, axisXModel.Foreground, maxYValue, textBlockWidth);
-            //        Grid.SetColumn(barItem, index);
-            //        MainGridAxisX.Children.Add(barItem);
-            //        index++;
-            //    }
-            //}
+            var axisXModel = AxisX;
+            if (axisXModel.Datas.Count > 0)
+            {
+                int count = axisXModel.Datas.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    MainGridAxisX.ColumnDefinitions.Add(new ColumnDefinition());
+                }
+                double maxYValue = AxisYSegment.SegmentItems.Max(i => i.Value);
+                int index = 0;
+                foreach (var data in axisXModel.Datas)
+                {
+                    //主内容
+                    double textBlockWidth = data.LabelWidth;
+                    var dataLabelItem = GenerateLineItem(data, axisXModel.Foreground, maxYValue, textBlockWidth);
+                    Grid.SetColumn(dataLabelItem, index);
+                    MainGridAxisX.Children.Add(dataLabelItem);
+                    index++;
+                }
+            }
             //需要重新绘制部分
             UpdateAxisLine();
         }
@@ -214,32 +220,65 @@ namespace Kybs0Charts
             //MainGridAxisX.Children.Add(viewbox);
         }
 
-        private Grid GenerateBarItem(AxisXDataModel data, Brush foregroundBrush, double maxYValue, double textBlockWidth)
+        private Grid GenerateLineItem(AxisXDataModel data, Brush foregroundBrush, double maxYValue, double textBlockWidth)
         {
-            var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(maxYValue - data.Value, GridUnitType.Star) });
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(data.Value, GridUnitType.Star) });
+            var itemRootGrid = new Grid();
+            itemRootGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(maxYValue - data.Value, GridUnitType.Star) });
+            itemRootGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(data.Value, GridUnitType.Star) });
+
+            var contentGrid = new Grid();
+            contentGrid.Width = 60;
+            contentGrid.HorizontalAlignment = HorizontalAlignment.Center;
+            contentGrid.VerticalAlignment = VerticalAlignment.Top;
+            contentGrid.Margin=new Thickness(0,-16- data.BarWidth/2-2,0,0);
+            contentGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            contentGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
             var tbl = new TextBlock();
-            tbl.Height = 15;
-            tbl.Margin = new Thickness(0, -16, 0, 0);
+            tbl.Height = 16;
             tbl.Text = data.Value.ToString(CultureInfo.InvariantCulture);
             tbl.Foreground = foregroundBrush;
             tbl.HorizontalAlignment = HorizontalAlignment.Center;
-            tbl.VerticalAlignment = VerticalAlignment.Top;
-            Grid.SetRow(tbl,1);
-            grid.Children.Add(tbl);
+            tbl.VerticalAlignment = VerticalAlignment.Center;
+            Grid.SetRow(tbl,0);
+            contentGrid.Children.Add(tbl);
 
             var rectangle = new Rectangle();
+            rectangle.Margin=new Thickness(0,2,0,0);
             rectangle.Width = data.BarWidth;
+            rectangle.Height = data.BarWidth;
             rectangle.Fill = BrushHelper.GetLinearBrush(data.FillBrush, data.FillEndBrush);
             rectangle.HorizontalAlignment = HorizontalAlignment.Center;
+            rectangle.RadiusX = data.BarWidth / 2;
+            rectangle.RadiusY = data.BarWidth / 2;
+            rectangle.MouseEnter += Rectangle_MouseEnter;
+            rectangle.MouseLeave += Rectangle_MouseLeave;
+            rectangle.Opacity = 0.8;
+            rectangle.Cursor = Cursors.Hand;
             Grid.SetRow(rectangle, 1);
-            grid.Children.Add(rectangle);
+            contentGrid.Children.Add(rectangle);
 
-            grid.Margin = new Thickness(0, 0, 0, 0);
-            grid.HorizontalAlignment = HorizontalAlignment.Right;
-            return grid;
+            Grid.SetRow(contentGrid, 1);
+            itemRootGrid.Children.Add(contentGrid);
+            itemRootGrid.Margin = new Thickness(0, 0, -30, 0);
+            itemRootGrid.HorizontalAlignment = HorizontalAlignment.Right;
+            return itemRootGrid;
+        }
+
+        private void Rectangle_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is Rectangle rectangle)
+            {
+                rectangle.Opacity = 0.8;
+            }
+        }
+
+        private void Rectangle_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is Rectangle rectangle)
+            {
+                rectangle.Opacity = 1;
+            } 
         }
 
         #endregion

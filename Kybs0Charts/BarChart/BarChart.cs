@@ -36,7 +36,7 @@ namespace Kybs0Charts
                 {
                     //使用数据添加X轴坐标
                     int count = axisXModel.Datas.Count;
-                    for (int i = 0; i < count + 1; i++)
+                    for (int i = 0; i < count; i++)
                     {
                         BottomGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     }
@@ -50,9 +50,8 @@ namespace Kybs0Charts
                         textblock.VerticalAlignment = VerticalAlignment.Top;
                         textblock.TextAlignment = TextAlignment.Center;
                         textblock.HorizontalAlignment = HorizontalAlignment.Right;
-                        double textBlockWidth = data.LabelWidth;
                         textblock.Width = data.LabelWidth;
-                        textblock.Margin = new Thickness(0, 5, -textBlockWidth / 2, 0);
+                        textblock.Margin = new Thickness(0, 5, 0, 0);
                         Grid.SetColumn(textblock, index);
                         BottomGrid.Children.Add(textblock);
                         index++;
@@ -147,7 +146,7 @@ namespace Kybs0Charts
             if (axisXModel.Datas.Count > 0)
             {
                 int count = axisXModel.Datas.Count;
-                for (int i = 0; i < count + 1; i++)
+                for (int i = 0; i < count; i++)
                 {
                     MainGridAxisX.ColumnDefinitions.Add(new ColumnDefinition());
                 }
@@ -188,7 +187,7 @@ namespace Kybs0Charts
             Grid.SetRow(rectangle, 1);
             grid.Children.Add(rectangle);
 
-            grid.Margin = new Thickness(0, 0, -textBlockWidth / 2, 0);
+            grid.Margin = new Thickness(0, 0, 0, 0);
             grid.HorizontalAlignment = HorizontalAlignment.Right;
             return grid;
         }
